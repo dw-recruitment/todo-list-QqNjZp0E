@@ -13,6 +13,17 @@
                      <img src='http://www.cs.utah.edu/~gk/atwork/img/hevequip2.gif'
                      alt='who doesn't love a good construction gif'>"})
 
+(defn about [request]
+  {:status 200
+   :headers {"Content-Type" "text/html"}
+   :body "<h1>About this project</h1>
+          <p>This is a basic webapp to:</p>
+          <ul>
+            <li>help me learn ~*clojure*~</li>
+            <li>keep track of #TODO items</li>
+            <li>reinforce that learning new languages is fun!</li>
+          </ul>"})
+
   (defn error [request]
   {:status 404
    :headers {"Content-Type" "text/html"}
@@ -21,4 +32,5 @@
   (defn handler [request]
   (case (request :uri)
     "/" (home request)
+    "/about" (about request)
     (error request)))
