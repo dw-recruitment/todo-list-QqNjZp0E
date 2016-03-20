@@ -23,7 +23,11 @@
               [:table
                 [:tr [:th "item"] [:th "done"]]
                 (for [todo all-todos]
-                  [:tr [:td (:item todo)[:td (:done todo)]]])]))})
+                  [:tr [:td (:item todo)[:td (:done todo)]]])]
+              [:h2 "Add Another TODO"]
+              [:form {:action "/" :method "POST"}
+                [:p "new item" [:input {:type "text" :name "item"}]]
+                [:p [:input {:type "submit" :value "add new item"}]]]))})
 
 (defn about [request]
   {:status 200

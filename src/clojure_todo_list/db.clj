@@ -10,3 +10,7 @@
   (let [results
     (sql/query db-spec "select item, done from todo")]
     results))
+
+; (def make-new-todo
+;   [item]
+;   (let [results (sql/insert! db :todo {:item item :done 0})]))
