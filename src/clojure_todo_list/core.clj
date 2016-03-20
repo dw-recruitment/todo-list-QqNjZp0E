@@ -24,12 +24,12 @@
             <li>reinforce that learning new languages is fun!</li>
           </ul>"})
 
-  (defn error [request]
+(defn error [request]
   {:status 404
    :headers {"Content-Type" "text/html"}
    :body "<h1>404 Not Found</h1"})
 
-  (defn handler [request]
+(defn handler [request]
   (case (request :uri)
     "/" (home request)
     "/about" (about request)
