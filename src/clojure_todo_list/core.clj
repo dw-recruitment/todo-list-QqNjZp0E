@@ -1,5 +1,13 @@
 (ns clojure-todo-list.core
-  (:gen-class))
+  (:gen-class)
+  (:require [clojure.java.jdbc :as sql]
+            [clojure.string :as str]
+            [hiccup.page :as hic-p]
+            [clojure-todo-list.db :as db]))
+
+(def db {:classname "org.sqlite.JDBC"
+         :subprotocol "sqlite"
+         :subname "todo.db"})
 
 (defn -main
   "I don't do a whole lot ... yet."
@@ -9,9 +17,13 @@
 (defn home [request]
   {:status 200
    :headers {"Content-Type" "text/html"}
-   :body "<h1>Super cool awesome headline</h1>
-                     <img src='http://www.cs.utah.edu/~gk/atwork/img/hevequip2.gif'
-                     alt='who doesn't love a good construction gif'>"})
+   :body (let [all-todos (db/get-all-todos)]
+            (hic-p/html5
+              [:h1 "Super cool awesome headline"]
+              [:table
+                [:tr [:th "item"] [:th "done"]]
+                (for [todo all-todos]
+                  [:tr [:td (:item todo)[:td (:done todo)]]])]))})
 
 (defn about [request]
   {:status 200

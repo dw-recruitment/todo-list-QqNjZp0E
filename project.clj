@@ -9,7 +9,8 @@
                  [ring/ring-core "1.4.0"]
                  [ring/ring-jetty-adapter "1.4.0"]
                  [org.clojure/java.jdbc "0.4.2"]
-                 [org.xerial/sqlite-jdbc "3.7.2"]]
+                 [org.xerial/sqlite-jdbc "3.7.2"]
+                 [hiccup "1.0.5"]]
   :main ^:skip-aot clojure-todo-list.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})

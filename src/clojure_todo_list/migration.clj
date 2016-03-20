@@ -19,3 +19,13 @@
       (create-todo)
       (println "Done ...")
 )
+
+
+; things that work
+; (let [cs (sql/create-table-ddl :todo [:id :serial "PRIMARY KEY"] [:item :varchar "NOT NULL"] [:done :integer "NOT NULL"])] (sql/execute! db [cs]))
+; (sql/insert! db :todo {:item "do laundry" :done 0})
+; (sql/insert! db :todo {:item "rearrange furniture" :done 0})
+
+; (require '[clojure.java.jdbc :as sql])
+; (def db {:classname "org.sqlite.JDBC" :subprotocol "sqlite" :subname "todo.db"})
+; (sql/query db "select item, done from todo")
