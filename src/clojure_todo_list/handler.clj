@@ -17,6 +17,9 @@
   (cc/POST "/done"
       {params :params}
       (views/set-item-done-page params))
+  (cc/POST "/delete"
+      {params :params}
+      (views/delete-item-done-page params))
   (route/resources "/")
   (route/not-found "Not found"))
 

@@ -25,6 +25,10 @@
     "on" (sql/execute! db-spec ["update todo set done = 1 where id = ?" (first id)])
     ))
 
+(defn delete-item
+    [id]
+    (sql/execute! db-spec ["delete from todo where id = ?" (first id)]))
+
 
     ; (sql/execute! db-spec ["UPDATE todo SET done = ? where id = ?" 1 (:done form_data)])]
 

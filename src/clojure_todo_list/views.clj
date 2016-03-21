@@ -9,18 +9,22 @@
     (hic-p/html5
       [:h1 "Super cool awesome headline"]
       [:table
-        [:tr [:th "item"] [:th "done"]]
+        [:tr [:th "item"] [:th "done"][:th "delete"]]
         (for [todo all-todos]
           [:tr
             [:td
               (case (:done todo)
                 1 [:span {:style "text-decoration:line-through;"}(:item todo)]
-                0 (:item todo))
-            ][:td
+                0 (:item todo))]
+            [:td
               [:form {:action "/done" :method "POST"}
                 [:input {:type "hidden" :name "id" :value (:id todo)}]
                 [:input {:type "checkbox" :onclick "this.form.submit()" :name "done" :checked (case (:done todo) 1 true 0 false)}]
-                ]]])]
+                ]]
+            [:td
+                [:form {:action "/delete" :method "POST"}
+                  [:input {:type "hidden" :name "id" :value (:id todo)}]
+                  [:input {:type "submit" :value "delete"}]]]])]
       [:h2 "Add Another TODO"]
       [:form {:action "/" :method "POST"}
         [:p "new item:" [:input {:type "text" :name "item"}]
@@ -48,3 +52,10 @@
   {:status 302
    :headers {"Location" "/"}
    :body ":"})
+
+(defn delete-item-done-page
+ [{:keys [id]}]
+ (db/delete-item [id])
+ {:status 302
+  :headers {"Location" "/"}
+  :body ":"})
