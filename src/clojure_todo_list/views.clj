@@ -19,10 +19,11 @@
             ][:td
               [:form {:action "/done" :method "POST"}
                 [:input {:type "hidden" :name "id" :value (:id todo)}]
-                [:input {:type "checkbox" :onclick "this.form.submit()" :name "done"}]]]])]
+                [:input {:type "checkbox" :onclick "this.form.submit()" :name "done" :checked (case (:done todo) 1 true 0 false)}]]]])]
       [:h2 "Add Another TODO"]
       [:form {:action "/" :method "POST"}
-        [:p "new item:" [:input {:type "text" :name "item"}] [:input {:type "submit" :value "add new item"}]]])))
+        [:p "new item:" [:input {:type "text" :name "item"}]
+                        [:input {:type "submit" :value "add new item"}]]])))
 
 (defn about-page
   []
@@ -41,8 +42,8 @@
    :body ""})
 
 (defn set-item-done-page
-  [{:keys [item]}]
-  (db/set-item-as-done item)
+  [{:keys [id done]}]
+  (db/set-item-as-done [id done])
   {:status 302
    :headers {"Location" "/"}
    :body ":"})

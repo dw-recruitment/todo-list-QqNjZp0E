@@ -1,5 +1,6 @@
 (ns clojure-todo-list.db
-  (:require [clojure.java.jdbc :as sql]))
+  (:require [clojure.java.jdbc :as sql])
+  (:require [clojure.string :as str]))
 
 (def db-spec {:classname "org.sqlite.JDBC"
               :subprotocol "sqlite"
@@ -8,7 +9,7 @@
 (defn get-all-todos
   []
   (let [results
-    (sql/query db-spec "select item, done from todo")]
+    (sql/query db-spec "select id, item, done from todo")]
     results))
 
 (defn add-todo-item-to-db
@@ -18,10 +19,13 @@
   (get-all-todos)))
 
 (defn set-item-as-done
-  [item]
-  (let [results
-    (sql/execute! db-spec ["UPDATE todo SET done = ? where id = ?" 1 8])]))
+  [id]
+    (let [this_id] (str/split id #" "))
+    (println this_id)
+    (sql/execute! db-spec ["update todo set done = 1 where id = ?" 2]))
 
 
+    ; (sql/execute! db-spec ["UPDATE todo SET done = ? where id = ?" 1 (:done form_data)])]
 
-    ; (sql/update! db-spec :todo {:done 1} [:id (:id item)])]))
+    ; (sql/update! db-spec :todo {:done 1} [:id (:id form_data)])]))
+    ; (sql/update! db-spec :todo {:done 1} ["id = ?" 1]))
