@@ -16,3 +16,12 @@
   (let [results
     (sql/insert! db-spec :todo {:item item :done 0})]
   (get-all-todos)))
+
+(defn set-item-as-done
+  [item]
+  (let [results
+    (sql/execute! db-spec ["UPDATE todo SET done = ? where id = ?" 1 8])]))
+
+
+
+    ; (sql/update! db-spec :todo {:done 1} [:id (:id item)])]))

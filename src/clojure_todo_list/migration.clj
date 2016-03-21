@@ -22,7 +22,7 @@
 
 
 ; things that work
-; (let [cs (sql/create-table-ddl :todo [:id :serial "PRIMARY KEY"] [:item :varchar "NOT NULL"] [:done :integer "NOT NULL"])] (sql/execute! db [cs]))
+; (let [cs (sql/create-table-ddl :todo1 [:id :primary :key :autoincrement] [:item :varchar "NOT NULL"] [:done :integer "NOT NULL"])] (sql/execute! db [cs]))
 ; (sql/insert! db :todo {:item "do laundry" :done 0})
 ; (sql/insert! db :todo {:item "rearrange furniture" :done 0})
 

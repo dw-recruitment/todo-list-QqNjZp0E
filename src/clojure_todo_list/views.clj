@@ -11,11 +11,18 @@
       [:table
         [:tr [:th "item"] [:th "done"]]
         (for [todo all-todos]
-          [:tr [:td (:item todo)[:td (case (:done todo) 1 "yes" 0 "no")]]])]
+          [:tr
+            [:td
+              (case (:done todo)
+                1 [:span {:style "text-decoration:line-through;"}(:item todo)]
+                0 (:item todo))
+            ][:td
+              [:form {:action "/done" :method "POST"}
+                [:input {:type "hidden" :name "id" :value (:id todo)}]
+                [:input {:type "checkbox" :onclick "this.form.submit()" :name "done"}]]]])]
       [:h2 "Add Another TODO"]
       [:form {:action "/" :method "POST"}
-        [:p "new item" [:input {:type "text" :name "item"}]]
-        [:p [:input {:type "submit" :value "add new item"}]]])))
+        [:p "new item:" [:input {:type "text" :name "item"}] [:input {:type "submit" :value "add new item"}]]])))
 
 (defn about-page
   []
@@ -31,5 +38,11 @@
   (db/add-todo-item-to-db item)
   {:status 302
    :headers {"Location" "/"}
-   :body ""}
-  )
+   :body ""})
+
+(defn set-item-done-page
+  [{:keys [item]}]
+  (db/set-item-as-done item)
+  {:status 302
+   :headers {"Location" "/"}
+   :body ":"})

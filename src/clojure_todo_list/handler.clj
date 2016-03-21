@@ -12,8 +12,11 @@
        []
        (views/about-page))
   (cc/POST "/"
-        {params :params}
-        (views/add-todo-item-page params))
+      {params :params}
+      (views/add-todo-item-page params))
+  (cc/POST "/done"
+      {params :params}
+      (views/set-item-done-page params))
   (route/resources "/")
   (route/not-found "Not found"))
 
