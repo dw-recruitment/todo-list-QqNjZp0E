@@ -11,6 +11,8 @@
     (sql/query db-spec "select item, done from todo")]
     results))
 
-; (def make-new-todo
-;   [item]
-;   (let [results (sql/insert! db :todo {:item item :done 0})]))
+(defn add-todo-item-to-db
+  [item]
+  (let [results
+    (sql/insert! db-spec :todo {:item item :done 0})]
+  (get-all-todos)))

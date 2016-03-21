@@ -6,16 +6,16 @@
 (defn home-page
   []
   (let [all-todos (db/get-all-todos)]
-            (hic-p/html5
-              [:h1 "Super cool awesome headline"]
-              [:table
-                [:tr [:th "item"] [:th "done"]]
-                (for [todo all-todos]
-                  [:tr [:td (:item todo)[:td (:done todo)]]])]
-              [:h2 "Add Another TODO"]
-              [:form {:action "/" :method "POST"}
-                [:p "new item" [:input {:type "text" :name "item"}]]
-                [:p [:input {:type "submit" :value "add new item"}]]])))
+    (hic-p/html5
+      [:h1 "Super cool awesome headline"]
+      [:table
+        [:tr [:th "item"] [:th "done"]]
+        (for [todo all-todos]
+          [:tr [:td (:item todo)[:td (case (:done todo) 1 "yes" 0 "no")]]])]
+      [:h2 "Add Another TODO"]
+      [:form {:action "/" :method "POST"}
+        [:p "new item" [:input {:type "text" :name "item"}]]
+        [:p [:input {:type "submit" :value "add new item"}]]])))
 
 (defn about-page
   []
@@ -25,3 +25,11 @@
     [:ul [:li "help me learn ~*clojure*~"]
          [:li "keep track of #TODO items"]
          [:li "reinforce that learning new languages is fun"]]))
+
+(defn add-todo-item-page
+  [{:keys [item]}]
+  (db/add-todo-item-to-db item)
+  {:status 302
+   :headers {"Location" "/"}
+   :body ""}
+  )

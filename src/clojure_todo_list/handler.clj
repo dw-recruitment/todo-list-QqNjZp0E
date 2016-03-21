@@ -11,9 +11,9 @@
   (cc/GET "/about"
        []
        (views/about-page))
-  ; (cc/POST "/"
-  ;       {params :params}
-  ;       (views/add-todo-item-page))
+  (cc/POST "/"
+        {params :params}
+        (views/add-todo-item-page params))
   (route/resources "/")
   (route/not-found "Not found"))
 
