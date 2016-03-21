@@ -20,9 +20,7 @@
 
 (defn set-item-as-done
   [id]
-    (let [this_id] (str/split id #" "))
-    (println this_id)
-    (sql/execute! db-spec ["update todo set done = 1 where id = ?" 2]))
+    (sql/execute! db-spec ["update todo set done = 1 where id = ?" (first id)]))
 
 
     ; (sql/execute! db-spec ["UPDATE todo SET done = ? where id = ?" 1 (:done form_data)])]

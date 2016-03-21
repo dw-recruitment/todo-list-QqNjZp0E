@@ -19,7 +19,8 @@
             ][:td
               [:form {:action "/done" :method "POST"}
                 [:input {:type "hidden" :name "id" :value (:id todo)}]
-                [:input {:type "checkbox" :onclick "this.form.submit()" :name "done" :checked (case (:done todo) 1 true 0 false)}]]]])]
+                [:input {:type "checkbox" :onclick "this.form.submit()" :name "done" :checked (case (:done todo) 1 true 0 false)}]
+                ]]])]
       [:h2 "Add Another TODO"]
       [:form {:action "/" :method "POST"}
         [:p "new item:" [:input {:type "text" :name "item"}]
