@@ -4,8 +4,8 @@
             [hiccup.page :as hic-p]))
 
 (defn get-one-list-page
-  []
-  (let [list (db/get-one-list [2])]
+  [id]
+  (let [list (db/get-one-list [id])]
     (hic-p/html5
       [:h1 "list title goes here"]
       [:table

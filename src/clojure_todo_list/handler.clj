@@ -12,8 +12,8 @@
       []
       (views/all-lists-page))
   (cc/GET "/list/:id"
-      []
-      (views/get-one-list-page))
+      [id]
+      (views/get-one-list-page id))
   (cc/GET "/about"
        []
        (views/about-page))
