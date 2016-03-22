@@ -3,7 +3,39 @@
             [clojure.string :as str]
             [hiccup.page :as hic-p]))
 
-(defn home-page
+(defn get-one-list-page
+  []
+  (let [list (db/get-one-list [2])]
+    (hic-p/html5
+      [:h1 "list title goes here"]
+      [:table
+        [:tr [:th "item"] [:th "done"][:th "delete"]]
+        (for [todo list]
+          [:tr
+            [:td
+              (case (:done todo)
+                1 [:span {:style "text-decoration:line-through;"}(:item todo)]
+                0 (:item todo))]
+            [:td
+              [:form {:action "/done" :method "POST"}
+                [:input {:type "hidden" :name "id" :value (:id todo)}]
+                [:input {:type "checkbox" :onclick "this.form.submit()" :name "done" :checked (case (:done todo) 1 true 0 false)}]
+                ]]
+            [:td
+                [:form {:action "/delete" :method "POST"}
+                  [:input {:type "hidden" :name "id" :value (:id todo)}]
+                  [:input {:type "submit" :value "delete"}]]]])])))
+
+(defn all-lists-page
+  []
+  (let [all-lists (db/get-all-lists)]
+    (hic-p/html5
+      [:h1 "Here's your list of lists!"]
+      (for [list all-lists]
+        [:p (:name list)])
+      )))
+
+(defn all-todos-page
   []
   (let [all-todos (db/get-all-todos)]
     (hic-p/html5

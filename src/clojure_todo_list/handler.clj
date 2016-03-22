@@ -7,7 +7,13 @@
 (cc/defroutes app-routes
   (cc/GET "/"
        []
-       (views/home-page))
+       (views/all-todos-page))
+ (cc/GET "/list"
+      []
+      (views/all-lists-page))
+  (cc/GET "/list/:id"
+      []
+      (views/get-one-list-page))
   (cc/GET "/about"
        []
        (views/about-page))
@@ -20,6 +26,8 @@
   (cc/POST "/delete"
       {params :params}
       (views/delete-item-done-page params))
+  (cc/GET "/test/:id" [id]
+      (str "<h1>Hello user " id "</h1>"))
   (route/resources "/")
   (route/not-found "Not found"))
 

@@ -6,6 +6,18 @@
               :subprotocol "sqlite"
               :subname "todo.db"})
 
+(defn get-all-lists
+  []
+  (let [results
+    (sql/query db-spec "select id, name from list")]
+    results))
+
+(defn get-one-list
+  [id]
+  (let [results
+    (sql/query db-spec "select id, item, done from todo where list = 2")]
+    results))
+
 (defn get-all-todos
   []
   (let [results
