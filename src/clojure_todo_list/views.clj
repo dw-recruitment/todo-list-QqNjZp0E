@@ -6,8 +6,9 @@
 (defn get-one-list-page
   [id]
   (let [list (db/get-one-list [id])]
+  (println list)
     (hic-p/html5
-      [:h1 "list title goes here"]
+      [:h1 (:name(first list))]
       [:table
         [:tr [:th "item"] [:th "done"][:th "delete"]]
         (for [todo list]
