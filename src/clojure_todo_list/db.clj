@@ -14,8 +14,9 @@
 
 (defn get-one-list
   [id]
+  (println id)
   (let [results
-    (sql/query db-spec "select id, item, done from todo where list = 2")]
+    (sql/query db-spec ["select id, item, done from todo where list = ?" (first id)])]
     results))
 
 (defn get-all-todos
