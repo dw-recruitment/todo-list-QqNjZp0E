@@ -7,6 +7,8 @@
   [id]
   (let [list (db/get-one-list [id])]
     (hic-p/html5
+      [:head [:title "So many todo lists!"] (hic-p/include-css "/css/styles.css")]
+      [:a {:href "/"}[:p "go home"]]
       [:h1 (:name (first list))]
       [:table
         [:tr [:th "item"] [:th "done"][:th "delete"]]
@@ -37,6 +39,7 @@
   []
   (let [all-lists (db/get-all-lists)]
     (hic-p/html5
+      [:head [:title "So many todo lists!"] (hic-p/include-css "/css/styles.css")]
       [:h1 "Here's your list of lists!"]
       (for [list all-lists]
         [:a {:href (format "/list/%s" (str (:id list)))}[:p (:name list)]])
@@ -72,6 +75,7 @@
 (defn about-page
   []
   (hic-p/html5
+    [:head [:title "So many todo lists!"] (hic-p/include-css "/css/styles.css")]
     [:h1 "About this project"]
     [:p "This is a basic webapp to:"]
     [:ul [:li "help me learn ~*clojure*~"]
