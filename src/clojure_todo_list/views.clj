@@ -19,11 +19,13 @@
             [:td
               [:form {:action "/done" :method "POST"}
                 [:input {:type "hidden" :name "id" :value (:id todo)}]
+                [:input {:type "hidden" :name "list" :value id}]
                 [:input {:type "checkbox" :onclick "this.form.submit()" :name "done" :checked (case (:done todo) 1 true 0 false)}]
                 ]]
             [:td
                 [:form {:action "/delete" :method "POST"}
                   [:input {:type "hidden" :name "id" :value (:id todo)}]
+                  [:input {:type "hidden" :name "list" :value id}]
                   [:input {:type "submit" :value "delete"}]]]])]
             [:h2 "Add Another TODO"]
             [:form {:action (format "/list/%s" id) :method "POST"}
@@ -87,19 +89,19 @@
  [params]
  (db/add-todo-item-to-list params)
  {:status 302
-  :headers {"Location" "/"}
+  :headers {"Location" (format "/list/%s" (:id params)) }
   :body ""})
 
 (defn set-item-done-page
-  [{:keys [id done]}]
+  [{:keys [id done list]}]
   (db/set-item-as-done [id done])
   {:status 302
-   :headers {"Location" "/"}
+   :headers {"Location" (format "/list/%s" list)}
    :body ":"})
 
 (defn delete-item-done-page
- [{:keys [id]}]
+ [{:keys [id list]}]
  (db/delete-item [id])
  {:status 302
-  :headers {"Location" "/"}
+  :headers {"Location" (format "/list/%s" list)}
   :body ":"})
