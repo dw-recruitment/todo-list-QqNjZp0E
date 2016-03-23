@@ -1,36 +1,14 @@
 # clojure-todo-list
 
-FIXME: description
+A basic todo list, written in Clojure using Leiningin, Ring, Compojure, Hiccup, Sqlite3, and Bootstrap.
 
-## Installation
-
-Download from http://example.com/FIXME.
-
-## Usage
-
-FIXME: explanation
-
-    $ java -jar clojure-todo-list-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
+## Functionality
 
 ...
 
-### Bugs
+To run: `lein ring server` inside the project.
 
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
-
-## License
-
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+You can:
+* add and delete todo lists
+* add items to and delete todo items from a list
+* read a delightful about page

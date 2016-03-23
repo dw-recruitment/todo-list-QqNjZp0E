@@ -90,13 +90,6 @@
          [:li "keep track of #TODO items"]
          [:li "reinforce that learning new languages is fun"]]]))
 
-(defn add-todo-item-page
-  [{:keys [item]}]
-  (db/add-todo-item-to-db item)
-  {:status 302
-   :headers {"Location" "/"}
-   :body ""})
-
 (defn add-item-to-list-page
  [params]
  (db/add-todo-item-to-list params)

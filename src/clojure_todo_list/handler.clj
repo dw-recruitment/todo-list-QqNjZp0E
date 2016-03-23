@@ -14,9 +14,6 @@
   (cc/GET "/about"
     []
     (views/about-page))
-  (cc/POST "/"
-    {params :params}
-    (views/add-todo-item-page params))
   (cc/POST "/list"
     {params :params}
     (views/add-list-page params))
