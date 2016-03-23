@@ -5,36 +5,33 @@
             [compojure.route :as route]))
 
 (cc/defroutes app-routes
-  ; (cc/GET "/"
-  ;      []
-  ;      (views/all-todos-page))
  (cc/GET "/"
-      []
-      (views/all-lists-page))
+    []
+    (views/all-lists-page))
   (cc/GET "/list/:id"
-      [id]
-      (views/get-one-list-page id))
+    [id]
+    (views/get-one-list-page id))
   (cc/GET "/about"
-       []
-       (views/about-page))
+    []
+    (views/about-page))
   (cc/POST "/"
-      {params :params}
-      (views/add-todo-item-page params))
+    {params :params}
+    (views/add-todo-item-page params))
   (cc/POST "/list"
-      {params :params}
-      (views/add-list-page params))
+    {params :params}
+    (views/add-list-page params))
   (cc/POST "/list/:id"
-      {params :params}
-      (views/add-item-to-list-page params))
+    {params :params}
+    (views/add-item-to-list-page params))
   (cc/POST "/done"
-      {params :params}
-      (views/set-item-done-page params))
+    {params :params}
+    (views/set-item-done-page params))
   (cc/POST "/delete"
-      {params :params}
-      (views/delete-item-done-page params))
+    {params :params}
+    (views/delete-item-done-page params))
   (cc/POST "/list/:id/delete"
-     [id]
-     (views/delete-list-page id))
+    [id]
+    (views/delete-list-page id))
   (route/resources "/")
   (route/not-found "Not found"))
 

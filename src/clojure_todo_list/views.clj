@@ -8,8 +8,7 @@
   [:head
     [:title title]
     (hic-p/include-css "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
-    (hic-p/include-js "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js")
-  ])
+    (hic-p/include-js "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js")])
 
 (defn headers
   []
@@ -78,33 +77,6 @@
         [:p "new list: " [:input {:type "text" :name "name" :class "form-control"}]
                         [:input {:type "submit" :value "add new list" :class "btn btn-primary"}]]]]
       )))
-
-(defn all-todos-page
-  []
-  (let [all-todos (db/get-all-todos)]
-    (hic-p/html5
-      [:h1 "Super cool awesome headline"]
-      [:table
-        [:tr [:th "item"] [:th "done"][:th "delete"]]
-        (for [todo all-todos]
-          [:tr
-            [:td
-              (case (:done todo)
-                1 [:span {:style "text-decoration:line-through;"}(:item todo)]
-                0 (:item todo))]
-            [:td
-              [:form {:action "/done" :method "POST"}
-                [:input {:type "hidden" :name "id" :value (:id todo)}]
-                [:input {:type "checkbox" :onclick "this.form.submit()" :name "done" :checked (case (:done todo) 1 true 0 false)}]
-                ]]
-            [:td
-                [:form {:action "/delete" :method "POST"}
-                  [:input {:type "hidden" :name "id" :value (:id todo)}]
-                  [:input {:type "submit" :value "delete"}]]]])]
-      [:h2 "Add Another TODO"]
-      [:form {:action "/" :method "POST" }
-        [:p "new item:" [:input {:type "text" :name "item"}]
-                        [:input {:type "submit" :value "add new item"}]]])))
 
 (defn about-page
   []
