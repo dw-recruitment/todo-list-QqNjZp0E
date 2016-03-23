@@ -22,7 +22,7 @@
 (defn get-all-todos
   []
   (let [results
-    (sql/query db-spec "select id, item, done from todo")]
+    (sql/query db-spec "select todo.id, todo.item, todo.done, list.name from todo join list on todo.list = list.id")]
     results))
 
 (defn add-todo-item-to-db
@@ -30,6 +30,13 @@
   (let [results
     (sql/insert! db-spec :todo {:item item :done 0})]
   (get-all-todos)))
+
+(defn add-todo-item-to-list
+  [params]
+  (let [results
+    (sql/insert! db-spec :todo {:item (:item params) :done 0 :list (:id params)})]
+  )
+)
 
 (defn set-item-as-done
   [id]

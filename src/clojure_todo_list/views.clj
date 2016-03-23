@@ -6,9 +6,8 @@
 (defn get-one-list-page
   [id]
   (let [list (db/get-one-list [id])]
-  (println list)
     (hic-p/html5
-      [:h1 (:name(first list))]
+      [:h1 (:name (first list))]
       [:table
         [:tr [:th "item"] [:th "done"][:th "delete"]]
         (for [todo list]
@@ -25,7 +24,12 @@
             [:td
                 [:form {:action "/delete" :method "POST"}
                   [:input {:type "hidden" :name "id" :value (:id todo)}]
-                  [:input {:type "submit" :value "delete"}]]]])])))
+                  [:input {:type "submit" :value "delete"}]]]])]
+            [:h2 "Add Another TODO"]
+            [:form {:action (format "/list/%s" id) :method "POST"}
+              [:p "new item:" [:input {:type "text" :name "item"}]
+                              [:input {:type "hidden" :name "id" :value id}]
+                              [:input {:type "submit" :value "add new item"}]]])))
 
 (defn all-lists-page
   []
@@ -33,7 +37,7 @@
     (hic-p/html5
       [:h1 "Here's your list of lists!"]
       (for [list all-lists]
-        [:p (:name list)])
+        [:a {:href (format "/list/%s" (str (:id list)))}[:p (:name list)]])
       )))
 
 (defn all-todos-page
@@ -78,6 +82,13 @@
   {:status 302
    :headers {"Location" "/"}
    :body ""})
+
+(defn add-item-to-list-page
+ [params]
+ (db/add-todo-item-to-list params)
+ {:status 302
+  :headers {"Location" "/"}
+  :body ""})
 
 (defn set-item-done-page
   [{:keys [id done]}]

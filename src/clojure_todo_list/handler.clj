@@ -5,10 +5,10 @@
             [compojure.route :as route]))
 
 (cc/defroutes app-routes
-  (cc/GET "/"
-       []
-       (views/all-todos-page))
- (cc/GET "/list"
+  ; (cc/GET "/"
+  ;      []
+  ;      (views/all-todos-page))
+ (cc/GET "/"
       []
       (views/all-lists-page))
   (cc/GET "/list/:id"
@@ -20,6 +20,9 @@
   (cc/POST "/"
       {params :params}
       (views/add-todo-item-page params))
+  (cc/POST "/list/:id"
+      {params :params}
+      (views/add-item-to-list-page params))
   (cc/POST "/done"
       {params :params}
       (views/set-item-done-page params))
