@@ -8,15 +8,34 @@
   [:head
     [:title title]
     (hic-p/include-css "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+    (hic-p/include-js "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js")
   ])
+
+(defn headers
+  []
+  (hic-p/html5
+    [:nav {:class "navbar navbar-inverse navbar-fixed-top"}
+      [:div {:class "container"}
+        [:div {:class "navbar-header"}
+        [:button {:type "button" :class "navbar-toggle collapsed" :data-toggle "collapse" :data-target "#navbar" :aria-expanded "false" :aria-controls "navbar"}
+          [:span {:class "sr-only"} "Toggle navigation"]
+          [:span {:class "icon-bar"}]
+          [:span {:class "icon-bar"}]
+          [:span {:class "icon-bar"}]]
+        [:div {:class "navbar-brand"} "Todo list"]]
+        [:div {:id "navbar" :class "collapse navbar-collapse"}
+          [:ul {:class "nav navbar-nav"}
+            [:li {:class "active"} [:a {:href "/"}"Home"]]
+            [:li [:a {:href "/about"}"About"]]]]]]))
 
 (defn get-one-list-page
   [id]
   (let [list (db/get-one-list [id])]
     (hic-p/html5
       (gen-page-head "So many things to do!")
-      [:a {:href "/"}[:p "go home"]]
-      [:body [:h1 (:name (first list))]
+      (headers)
+      [:div {:class "container"}
+      [:h1 (:name (first list))]
       [:table {:class "table table-striped table-hover table-condensed col-md-4"}
         [:tr [:th "item"] [:th "done"][:th "delete"]]
         (for [todo list]
@@ -40,13 +59,15 @@
             [:form {:action (format "/list/%s" id) :method "POST"}
               [:p "new item:" [:input {:type "text" :name "item"}]
                               [:input {:type "hidden" :name "id" :value id}]
-                              [:input {:type "submit" :value "add new item" :class "btn btn-primary"}]]]])))
+                              [:input {:type "submit" :value "add new item" :class "btn btn-primary"}]]])]))
 
 (defn all-lists-page
   []
   (let [all-lists (db/get-all-lists)]
     (hic-p/html5
       (gen-page-head "So many todo lists!")
+      (headers)
+      [:div {:class "container"}
       [:h1 "Here's your list of lists!"]
       (for [list all-lists]
         [:a {:href (format "/list/%s" (str (:id list)))}[:p (:name list)]])
@@ -54,7 +75,7 @@
       [:form {:action "/list" :method "POST"}
         [:p "new list:" [:input {:type "text" :name "name"}]
                         [:input {:type "submit" :value "add new list" :class "btn btn-primary"}]]]
-      )))
+      ])))
 
 (defn all-todos-page
   []
@@ -86,12 +107,14 @@
 (defn about-page
   []
   (hic-p/html5
-    [:head [:title "So many todo lists!"] (hic-p/include-css "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")]
+    (gen-page-head "So many todo lists!")
+    (headers)
+    [:div {:class "container"}
     [:h1 "About this project"]
     [:p "This is a basic webapp to:"]
     [:ul [:li "help me learn ~*clojure*~"]
          [:li "keep track of #TODO items"]
-         [:li "reinforce that learning new languages is fun"]]))
+         [:li "reinforce that learning new languages is fun"]]]))
 
 (defn add-todo-item-page
   [{:keys [item]}]
