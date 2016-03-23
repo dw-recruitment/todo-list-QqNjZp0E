@@ -32,6 +32,9 @@
   (cc/POST "/delete"
       {params :params}
       (views/delete-item-done-page params))
+  (cc/POST "/list/:id/delete"
+     [id]
+     (views/delete-list-page id))
   (route/resources "/")
   (route/not-found "Not found"))
 

@@ -34,7 +34,7 @@
     (hic-p/html5
       (gen-page-head "So many things to do!")
       (headers)
-      [:div {:class "container"}
+      [:div {:class "container" :style "padding-top: 50px"}
       [:h1 (:name (first list))]
       [:table {:class "table table-striped table-hover table-condensed col-md-4"}
         [:tr [:th "item"] [:th "done"][:th "delete"]]
@@ -54,12 +54,14 @@
                 [:form {:action "/delete" :method "POST"}
                   [:input {:type "hidden" :name "id" :value (:id todo)}]
                   [:input {:type "hidden" :name "list" :value id}]
-                  [:input {:type "submit" :value "delete" :class "btn btn-danger"}]]]])]
+                  [:input {:type "submit" :value "delete" :class "btn btn-warning"}]]]])]
             [:h2 "Add Another TODO"]
-            [:form {:action (format "/list/%s" id) :method "POST"}
-              [:p "new item:" [:input {:type "text" :name "item"}]
+            [:form {:action (format "/list/%s" id) :method "POST" :class "form-inline"}
+              [:p "new item: " [:input {:type "text" :name "item" :class "form-control"}]
                               [:input {:type "hidden" :name "id" :value id}]
-                              [:input {:type "submit" :value "add new item" :class "btn btn-primary"}]]])]))
+                              [:input {:type "submit" :value "add new item" :class "btn btn-primary"}]]]
+            [:form {:action (format "/list/%s/delete" id) :method "POST" :class "form-inline"}
+                [:input {:type "submit" :value "delete this list" :class "btn btn-danger"}]]])))
 
 (defn all-lists-page
   []
@@ -67,15 +69,15 @@
     (hic-p/html5
       (gen-page-head "So many todo lists!")
       (headers)
-      [:div {:class "container"}
+      [:div {:class "container" :style "padding-top: 50px"}
       [:h1 "Here's your list of lists!"]
       (for [list all-lists]
         [:a {:href (format "/list/%s" (str (:id list)))}[:p (:name list)]])
       [:h2 "Add another list"]
-      [:form {:action "/list" :method "POST"}
-        [:p "new list:" [:input {:type "text" :name "name"}]
-                        [:input {:type "submit" :value "add new list" :class "btn btn-primary"}]]]
-      ])))
+      [:form {:action "/list" :method "POST" :class "form-inline"}
+        [:p "new list: " [:input {:type "text" :name "name" :class "form-control"}]
+                        [:input {:type "submit" :value "add new list" :class "btn btn-primary"}]]]]
+      )))
 
 (defn all-todos-page
   []
@@ -100,7 +102,7 @@
                   [:input {:type "hidden" :name "id" :value (:id todo)}]
                   [:input {:type "submit" :value "delete"}]]]])]
       [:h2 "Add Another TODO"]
-      [:form {:action "/" :method "POST"}
+      [:form {:action "/" :method "POST" }
         [:p "new item:" [:input {:type "text" :name "item"}]
                         [:input {:type "submit" :value "add new item"}]]])))
 
@@ -109,7 +111,7 @@
   (hic-p/html5
     (gen-page-head "So many todo lists!")
     (headers)
-    [:div {:class "container"}
+    [:div {:class "container" :style "padding-top: 50px"}
     [:h1 "About this project"]
     [:p "This is a basic webapp to:"]
     [:ul [:li "help me learn ~*clojure*~"]
@@ -150,3 +152,10 @@
  {:status 302
   :headers {"Location" (format "/list/%s" list)}
   :body ":"})
+
+(defn delete-list-page
+    [id]
+    (db/delete-list [id])
+    {:status 302
+     :headers {"Location" "/"}
+     :body ":"})

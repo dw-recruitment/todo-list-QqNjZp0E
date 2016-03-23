@@ -54,3 +54,8 @@
   (println params)
   (sql/insert! db-spec :list {:name (:name params)})
   )
+
+(defn delete-list
+    [id]
+    (sql/execute! db-spec ["delete from list where id = ?" (first id)])
+    (sql/execute! db-spec ["delete from todo where list = ?" (first id)]))
