@@ -20,6 +20,9 @@
   (cc/POST "/"
       {params :params}
       (views/add-todo-item-page params))
+  (cc/POST "/list"
+      {params :params}
+      (views/add-list-page params))
   (cc/POST "/list/:id"
       {params :params}
       (views/add-item-to-list-page params))
@@ -29,8 +32,6 @@
   (cc/POST "/delete"
       {params :params}
       (views/delete-item-done-page params))
-  (cc/GET "/test/:id" [id]
-      (str "<h1>Hello user " id "</h1>"))
   (route/resources "/")
   (route/not-found "Not found"))
 

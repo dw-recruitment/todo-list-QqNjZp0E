@@ -49,8 +49,8 @@
     [id]
     (sql/execute! db-spec ["delete from todo where id = ?" (first id)]))
 
-
-    ; (sql/execute! db-spec ["UPDATE todo SET done = ? where id = ?" 1 (:done form_data)])]
-
-    ; (sql/update! db-spec :todo {:done 1} [:id (:id form_data)])]))
-    ; (sql/update! db-spec :todo {:done 1} ["id = ?" 1]))
+(defn add-new-list
+  [params]
+  (println params)
+  (sql/insert! db-spec :list {:name (:name params)})
+  )

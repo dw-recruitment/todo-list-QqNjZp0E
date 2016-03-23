@@ -3,14 +3,21 @@
             [clojure.string :as str]
             [hiccup.page :as hic-p]))
 
+(defn gen-page-head
+  [title]
+  [:head
+    [:title title]
+    (hic-p/include-css "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")
+  ])
+
 (defn get-one-list-page
   [id]
   (let [list (db/get-one-list [id])]
     (hic-p/html5
-      [:head [:title "So many todo lists!"] (hic-p/include-css "/css/styles.css")]
+      (gen-page-head "So many things to do!")
       [:a {:href "/"}[:p "go home"]]
-      [:h1 (:name (first list))]
-      [:table
+      [:body [:h1 (:name (first list))]
+      [:table {:class "table table-striped table-hover table-condensed col-md-4"}
         [:tr [:th "item"] [:th "done"][:th "delete"]]
         (for [todo list]
           [:tr
@@ -28,21 +35,25 @@
                 [:form {:action "/delete" :method "POST"}
                   [:input {:type "hidden" :name "id" :value (:id todo)}]
                   [:input {:type "hidden" :name "list" :value id}]
-                  [:input {:type "submit" :value "delete"}]]]])]
+                  [:input {:type "submit" :value "delete" :class "btn btn-danger"}]]]])]
             [:h2 "Add Another TODO"]
             [:form {:action (format "/list/%s" id) :method "POST"}
               [:p "new item:" [:input {:type "text" :name "item"}]
                               [:input {:type "hidden" :name "id" :value id}]
-                              [:input {:type "submit" :value "add new item"}]]])))
+                              [:input {:type "submit" :value "add new item" :class "btn btn-primary"}]]]])))
 
 (defn all-lists-page
   []
   (let [all-lists (db/get-all-lists)]
     (hic-p/html5
-      [:head [:title "So many todo lists!"] (hic-p/include-css "/css/styles.css")]
+      (gen-page-head "So many todo lists!")
       [:h1 "Here's your list of lists!"]
       (for [list all-lists]
         [:a {:href (format "/list/%s" (str (:id list)))}[:p (:name list)]])
+      [:h2 "Add another list"]
+      [:form {:action "/list" :method "POST"}
+        [:p "new list:" [:input {:type "text" :name "name"}]
+                        [:input {:type "submit" :value "add new list" :class "btn btn-primary"}]]]
       )))
 
 (defn all-todos-page
@@ -75,7 +86,7 @@
 (defn about-page
   []
   (hic-p/html5
-    [:head [:title "So many todo lists!"] (hic-p/include-css "/css/styles.css")]
+    [:head [:title "So many todo lists!"] (hic-p/include-css "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css")]
     [:h1 "About this project"]
     [:p "This is a basic webapp to:"]
     [:ul [:li "help me learn ~*clojure*~"]
@@ -94,6 +105,13 @@
  (db/add-todo-item-to-list params)
  {:status 302
   :headers {"Location" (format "/list/%s" (:id params)) }
+  :body ""})
+
+(defn add-list-page
+ [params]
+ (db/add-new-list params)
+ {:status 302
+  :headers {"Location" "/"}
   :body ""})
 
 (defn set-item-done-page
